@@ -66,6 +66,10 @@ console.log(nb_of_deals);
 // 2. Log the variable
 // 3. Log how many shopping communities we have
 
+let list_community;
+for (let i =0; i<deals.length; i++){
+  list_community.push(deals[i].community);
+}
 
 
 
