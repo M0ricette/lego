@@ -30,6 +30,20 @@ console.log(MY_FAVORITE_DEALERS[0]);
 // 1. Create a new variable and assign it the link of the lego set with the highest reduction I can find on these 2 websites
 // 2. Log the variable
 
+
+var BestDeal;
+let bestdis=deals[0].discount;
+for (let i = 1; i<deals.length;i++){
+
+  if (deals[i].discount>bestdis){
+    bestdis=deals[i].discount;
+    BestDeal=deals[i].link
+  }
+
+}
+console.log(BestDeal);
+
+
 /**
  * 🧱
  * Easy 😁?
