@@ -57,6 +57,10 @@ console.log(BestDeal);
 // 1. Create a variable and assign it the number of deals
 // 2. Log the variable
 
+let nb_of_deals=deals.length;
+console.log(nb_of_deals);
+
+
 // 🎯 TODO 3: Website name
 // 1. Create a variable and assign it the list of shopping community name only
 // 2. Log the variable
