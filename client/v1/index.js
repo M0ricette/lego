@@ -66,12 +66,20 @@ console.log(nb_of_deals);
 // 2. Log the variable
 // 3. Log how many shopping communities we have
 
-let list_community;
+let list_community=[];
 for (let i =0; i<deals.length; i++){
   list_community.push(deals[i].community);
 }
+console.log(list_community)
 
+let occurence=[];
+for (let i = 0; i < list_community.length; i++) {
+  if (!occurence.includes(list_community[i])) {
+    occurence.push(list_community[i]);
+  }
+}
 
+console.log(occurence.length);
 
 // 🎯 TODO 4: Sort by price
 // 1. Create a function to sort the deals by price
