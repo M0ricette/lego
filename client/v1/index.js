@@ -103,6 +103,17 @@ console.log(sort_list.sort((a, b) => a - b));
 // 2. Create a variable and assign it the list of deals by date from recent to old
 // 3. Log the variable
 
+let list_date=[];
+let sorted_list_date=[];
+function sort_deals_date(){
+  for (let i = 0; i < list_community.length; i++){
+    list_date.push(new Date(deals[i].published));
+  }
+  return list_date;
+}
+sorted_list_date = sort_deals_date().sort((a, b) => a - b);
+console.log(sorted_list_date);
+
 // 🎯 TODO 6: Filter a specific percentage discount range
 // 1. Filter the list of deals between 50% and 75%
 // 2. Log the list
