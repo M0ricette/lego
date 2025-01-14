@@ -118,9 +118,27 @@ console.log(sorted_list_date);
 // 1. Filter the list of deals between 50% and 75%
 // 2. Log the list
 
+let good_deal=[];
+for (let i = 0; i < list_community.length; i++){
+  if (deals[i].discount>=50 && deals[i].discount<=75){
+    good_deal.push(deals[i].discount);
+  }
+}
+console.log(good_deal);
+
+
 // 🎯 TODO 7: Average percentage discount
 // 1. Determine the average percentage discount of the deals
 // 2. Log the average
+
+let all_discount=[];
+let sum_discount
+for (let i = 0; i < list_community.length; i++){
+  all_discount.push(deals[i].discount)
+}
+let av_discount = all_discount.reduce((sum, num) => sum + num, 0);
+let moy_discount = av_discount/nb_of_deals
+console.log(moy_discount);
 
 /**
  * 🏎
@@ -144,6 +162,30 @@ console.log(sorted_list_date);
 //
 // 2. Log the variable
 // 3. Log the number of deals by community
+
+const communities = {};
+
+// Parcourir les deals et les regrouper par communauté
+deals.forEach(deal => {
+  const community = deal.community; // Récupérer le nom de la communauté
+  
+  // Si la communauté n'existe pas encore dans `communities`, la créer
+  if (!communities[community]) {
+    communities[community] = [];
+  }
+  
+  // Ajouter le deal à la communauté correspondante
+  communities[community].push(deal.title);
+});
+
+
+console.log("Deals regroupés par communauté :", communities);
+
+
+Object.keys(communities).forEach(community => {
+  console.log(`${community}: ${communities[community].length} deals`);
+});
+
 
 // 🎯 TODO 9: Sort by price for each community
 // 1. For each community, sort the deals by discount price, from highest to lowest
