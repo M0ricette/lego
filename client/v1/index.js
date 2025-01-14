@@ -86,6 +86,18 @@ console.log(occurence.length);
 // 2. Create a variable and assign it the list of sets by price from lowest to highest
 // 3. Log the variable
 
+let list_price=[];
+let sort_list=[];
+function sort_deals_price(){
+  for (let i = 0; i < list_community.length; i++){
+    list_price.push(deals[i].price);
+  }
+  return list_price;
+}
+sort_list=sort_deals_price();
+console.log(sort_list.sort((a, b) => a - b));
+
+
 // 🎯 TODO 5: Sort by date
 // 1. Create a function to sort the deals by date
 // 2. Create a variable and assign it the list of deals by date from recent to old
