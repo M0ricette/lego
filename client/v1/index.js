@@ -191,9 +191,60 @@ Object.keys(communities).forEach(community => {
 // 1. For each community, sort the deals by discount price, from highest to lowest
 // 2. Log the sort
 
+
+const communities_discount = [];
+deals.forEach(deal => {
+  const community = deal.community;
+
+  if (!communities_discount[community]) {
+    communities_discount[community] = [];
+  }
+
+  communities_discount[community].push({ title: deal.title, discount: deal.discount });
+});
+
+// Trier par réduction décroissante dans chaque communauté
+Object.keys(communities_discount).forEach(community => {
+  communities_discount[community].sort((a, b) => b.discount - a.discount);
+});
+
+// Afficher les réductions et titres triés par communauté
+console.log("Réductions triées par communauté :", communities_discount);
+
+
+
+
+
+
 // 🎯 TODO 10: Sort by date for each community
 // 1. For each set, sort the deals by date, from old to recent
 // 2. Log the sort
+
+const communities_date = {};
+
+// Trier les deals par date pour chaque communauté
+Object.keys(communities).forEach(community => {
+  // Initialiser l'entrée dans communities_date pour chaque communauté
+  if (!communities_date[community]) {
+    communities_date[community] = [];
+  }
+
+  // Parcourir les deals de la communauté
+  communities[community].forEach(title => {
+    const deal = deals.find(d => d.title === title); // Trouver le deal correspondant au titre
+    if (deal) {
+      communities_date[community].push({
+        title: deal.title,
+        published: new Date(deal.published) // Convertir la date en objet Date pour tri correct
+      });
+    }
+  });
+
+  // Trier par date décroissante (plus récent en premier)
+  communities_date[community].sort((a, b) => b.published - a.published);
+});
+
+console.log("Dates de publication triées par communauté :", communities_date);
 
 
 /**
