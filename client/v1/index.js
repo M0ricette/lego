@@ -538,17 +538,78 @@ const VINTED = [
 // 3. Compute the p25 price value of the listing
 // The p25 value (25th percentile) is the lower value expected to be exceeded in 25% of the vinted items
 
+const prices = VINTED.map(item => parseFloat(item.price));
+const total = prices.reduce((sum, price) => sum + price, 0);
+const average = total / prices.length;
+const sortedPrices = [...prices].sort((a, b) => a - b);
+
+// Calculer les indices pour p5 et p25
+const p5Index = Math.ceil(0.05 * sortedPrices.length) - 1; // 5ᵉ centile
+const p25Index = Math.ceil(0.25 * sortedPrices.length) - 1; // 25ᵉ centile
+
+// Obtenir les valeurs p5 et p25
+const p5 = sortedPrices[p5Index];
+const p25 = sortedPrices[p25Index];
+
+console.log("Statistiques des prix :", average, p5, p25);
+
 // 🎯 TODO 12: Very old listed items
 // // 1. Log if we have very old items (true or false)
-// // A very old item is an item `published` more than 3 weeks ago.
+// // A very old item is an item `published` more than 3 weeks ago
+
+function hasVeryOldItems(vintedItems) {
+  const threeWeeksAgo = new Date(Date.now() - 3 * 7 * 24 * 60 * 60 * 1000); // Date de seuil
+
+  // Vérifier si un article est publié il y a plus de 3 semaines
+  return vintedItems.some(item => new Date(item.published) < threeWeeksAgo);
+}
+
+// Appeler la fonction avec vos données
+const veryOldItemsExist = hasVeryOldItems(VINTED);
+console.log("A-t-on des articles très anciens :", veryOldItemsExist);
+
 
 // 🎯 TODO 13: Find a specific item
 // 1. Find the item with the uuid `f2c5377c-84f9-571d-8712-98902dcbb913`
 // 2. Log the item
 
+function findItemByUuid(vintedItems, targetUuid) {
+  // Trouver l'article avec le UUID donné
+  return vintedItems.find(item => item.uuid === targetUuid);
+}
+// UUID cible
+const targetUuid = "f2c5377c-84f9-571d-8712-98902dcbb913";
+
+// Trouver l'article
+const specificItem = findItemByUuid(VINTED, targetUuid);
+
+// Afficher l'article trouvé ou un message s'il n'existe pas
+if (specificItem) {
+  console.log("Article trouvé :", specificItem);
+} else {
+  console.log("Aucun article trouvé avec l'UUID :", targetUuid);
+}
+
+
 // 🎯 TODO 14: Delete a specific item
 // 1. Delete the item with the uuid `f2c5377c-84f9-571d-8712-98902dcbb913`
 // 2. Log the new list of items
+
+function deleteItemByUuid(vintedItems, targetUuid) {
+  // Créer une nouvelle liste sans l'article avec l'UUID spécifié
+  return vintedItems.filter(item => item.uuid !== targetUuid);
+}
+
+// UUID cible
+const targetUuid_del = "f2c5377c-84f9-571d-8712-98902dcbb913";
+
+// Supprimer l'article
+const updatedList = deleteItemByUuid(VINTED, targetUuid_del);
+
+// Afficher la nouvelle liste
+console.log("Nouvelle liste après suppression :", updatedList);
+
+
 
 // 🎯 TODO 5: Save a favorite item
 // We declare and assign a variable called `sealedCamera`
@@ -577,9 +638,15 @@ sealedCamera = {
   published: "Thu, 26 Dec 2024 21:18:04 GMT",
   uuid: "18751705-536e-5c1f-9a9d-383a3a629df5"
 };
-
+console.log("After reassigning sealedCamera:");
+console.log("sealedCamera:", sealedCamera);
+console.log("camera:", camera);
 // 3. Update `camera` property with `favorite` to true WITHOUT changing sealedCamera properties
+camera = Object.assign({}, sealedCamera);
+camera.favorite = true;
 
+console.log("sealedCamera:", sealedCamera);
+console.log("camera:", camera);
 
 // 🎯 TODO 11: Compute the profitability
 // From a specific deal called `deal`
@@ -592,6 +659,29 @@ const deal = {
 
 // 1. Compute the potential highest profitability based on the VINTED items
 // 2. Log the value
+function computeHighestProfitability(deal, vintedItems) {
+  // Filtrer les articles pertinents pour le legoId
+  const relevantItems = vintedItems.filter(item => item.title.includes(deal.legoId));
+
+  // Si aucun article pertinent n'est trouvé, retourner 0
+  if (relevantItems.length === 0) {
+    return 0;
+  }
+
+  // Calculer la profitabilité pour chaque article et trouver la valeur maximale
+  const maxProfitability = relevantItems.reduce((maxProfit, item) => {
+    const profit = deal.retail - parseFloat(item.price); // Calcul de la profitabilité
+    return Math.max(maxProfit, profit); // Retourner la valeur maximale
+  }, 0);
+
+  return maxProfitability;
+}
+
+// Exemple d'utilisation avec le deal et VINTED
+const profitability = computeHighestProfitability(deal, VINTED);
+
+// Afficher la profitabilité maximale
+console.log("Profitabilité maximale :", profitability);
 
 
 
@@ -604,3 +694,7 @@ const deal = {
 // 🎯 LAST TODO: Save in localStorage
 // 1. Save MY_FAVORITE_DEALERS in the localStorage
 // 2. log the localStorage
+
+let localStorage;
+localStorage.push(MY_FAVORITE_DEALERS);
+console.log(localStorage);
