@@ -157,3 +157,70 @@ document.addEventListener('DOMContentLoaded', async () => {
   setCurrentDeals(deals);
   render(currentDeals, currentPagination);
 });
+
+/**
+ * Listener pour naviguer entre les pages
+ */
+selectPage.addEventListener('change', async (event) => {
+  // Récupérer la page sélectionnée
+  const selectedPage = parseInt(event.target.value);
+
+  // Fetch les deals pour la page sélectionnée
+  const deals = await fetchDeals(selectedPage, currentPagination.pageSize);
+
+  // Mettre à jour les données globales et l'affichage
+  setCurrentDeals(deals);
+  render(currentDeals, currentPagination);
+});
+
+/**
+ * Initialisation au chargement de la page
+ */
+document.addEventListener('DOMContentLoaded', async () => {
+  // Fetch la première page par défaut
+  const deals = await fetchDeals();
+
+  // Mettre à jour les données globales et l'affichage
+  setCurrentDeals(deals);
+  render(currentDeals, currentPagination);
+});
+
+
+
+// Sélecteur du champ de saisie pour la réduction minimum
+const discountThresholdInput = document.querySelector('#discount-threshold');
+
+/**
+ * Filtrer les deals par réduction
+ */
+const filterDealsByDiscount = (deals, threshold = 50) => {
+  return deals.filter(deal => deal.discount > threshold);
+};
+
+/**
+ * Listener pour le champ "Réduction minimum"
+ */
+discountThresholdInput.addEventListener('input', async (event) => {
+  // Récupérer la valeur du seuil de réduction
+  const threshold = parseInt(event.target.value, 10) || 0; // Valeur par défaut : 0
+  let filteredDeals = currentDeals;
+
+  // Filtrer les deals si un seuil est défini
+  if (threshold > 0) {
+    filteredDeals = filterDealsByDiscount(currentDeals, threshold);
+  }
+
+  // Rendre les deals filtrés
+  render(filteredDeals, currentPagination);
+});
+
+/**
+ * Initialisation au chargement de la page
+ */
+document.addEventListener('DOMContentLoaded', async () => {
+  const deals = await fetchDeals();
+
+  setCurrentDeals(deals);
+  render(currentDeals, currentPagination);
+});
+
