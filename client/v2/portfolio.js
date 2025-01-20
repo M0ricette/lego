@@ -31,6 +31,10 @@ const selectPage = document.querySelector('#page-select');
 const selectLegoSetIds = document.querySelector('#lego-set-id-select');
 const sectionDeals= document.querySelector('#deals');
 const spanNbDeals = document.querySelector('#nbDeals');
+const bestDiscountButton = document.querySelector('#bestDiscountButton');
+const mostCommentedButton = document.querySelector('#mostCommentedButton');
+const hotDealsButton = document.querySelector('#hotDealsButton');
+
 
 /**
  * Set global value
@@ -45,7 +49,7 @@ const setCurrentDeals = ({result, meta}) => {
 /**
  * Fetch deals from api
  * @param  {Number}  [page=1] - current page to fetch
- * @param  {Number}  [size=12] - size of the page
+ * @param  {Number}  [ =12] - size of the page
  * @return {Object}
  */
 const fetchDeals = async (page = 1, size = 6) => {
@@ -200,27 +204,16 @@ const filterDealsByDiscount = (deals, threshold = 50) => {
 /**
  * Listener pour le champ "Réduction minimum"
  */
-discountThresholdInput.addEventListener('input', async (event) => {
-  // Récupérer la valeur du seuil de réduction
-  const threshold = parseInt(event.target.value, 10) || 0; // Valeur par défaut : 0
-  let filteredDeals = currentDeals;
-
-  // Filtrer les deals si un seuil est défini
-  if (threshold > 0) {
-    filteredDeals = filterDealsByDiscount(currentDeals, threshold);
-  }
-
-  // Rendre les deals filtrés
-  render(filteredDeals, currentPagination);
+bestDiscountButton.addEventListener('click', async (event) => {
+  console.log('Best Discount');
 });
 
-/**
- * Initialisation au chargement de la page
- */
-document.addEventListener('DOMContentLoaded', async () => {
-  const deals = await fetchDeals();
-
-  setCurrentDeals(deals);
-  render(currentDeals, currentPagination);
+mostCommentedButton.addEventListener('click', async (event) => {
+  console.log('Best comment');
 });
+
+hotDealsButton.addEventListener('click', async (event) => {
+  console.log('Best deals');
+});
+
 
