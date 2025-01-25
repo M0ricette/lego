@@ -7,6 +7,6 @@
  * @param {Array} deals - list of deals
  * @returns {Array} list of lego set ids
  */
-const getIdsFromDeals = deals => {
+const getIdsFromDealsUtils = deals => {
     return deals.map(deal => deal.id)
 }
